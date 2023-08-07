@@ -5,12 +5,15 @@ type 'a rle =
   | Many of int * 'a
 
 let rlencode list =
+  let as_rle n elem =
+    if n = 0 then One elem
+    else Many (n, elem) in
   let rec aux n acc = function
   | [] -> []
-  | [x] -> if n = 0 then One x :: acc else Many (n+1, x) :: acc
+  | [x] -> (as_rle (n + 1) x) :: acc
   | a :: (b :: _ as t) -> if a = b then aux (n + 1) acc t
-                          else if n = 0 then aux 0 (One a :: acc) t  else aux 0 (Many (n + 1, a) :: acc) t
-                        in List.rev (aux 0 [] list);;
+                          else aux 0 ((as_rle (n + 1) a) :: acc) t in
+  List.rev (aux 0 [] list);;
 
 
 let pp_rle = function
