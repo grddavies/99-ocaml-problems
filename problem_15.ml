@@ -6,3 +6,14 @@ let replicate list n =
     | x :: xs -> aux n (acc @ repeat n x []) xs
   in
   aux n [] list
+
+let list_to_str = function
+  | [] -> "[]"
+  | [ x ] -> Printf.sprintf "[ %s ]" x
+  | x :: xs ->
+      List.fold_left
+        (fun s e -> s ^ Printf.sprintf "; %s " e)
+        (Printf.sprintf "[ %s" x) xs
+      ^ "]"
+
+let () = replicate [ "a"; "b"; "c" ] 3 |> list_to_str |> print_endline
