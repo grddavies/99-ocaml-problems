@@ -2,9 +2,6 @@
 let prime n =
   let lim = n |> float_of_int |> sqrt |> int_of_float in
   let rec seive i =
-    if n = 1 then false
-    else if i > lim then true
-    else if n mod i = 0 then false
-    else seive (i+1)
-  in seive 2
+    i > lim || (n mod i <> 0 && seive (i+1))
+  in n <> 1 && seive 2
 
