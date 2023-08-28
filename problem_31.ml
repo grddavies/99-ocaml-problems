@@ -4,7 +4,7 @@ let prime n =
   let prod = List.fold_left ( * ) 1  basis in
   let range = List.init prod (fun x -> x + 1) in
   let wheel = List.filter (fun i -> List.for_all (fun y -> i mod y <> 0) basis) range in
-  let wheel = List.tl wheel in
+  let wheel = List.tl wheel @ [1+prod] in
   let rec loop base = function
     (* No coprimes left in this turn of the wheel -> increment base *)
     | [] -> loop (base + prod) wheel
