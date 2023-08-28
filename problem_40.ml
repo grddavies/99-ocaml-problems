@@ -21,9 +21,11 @@ let all_primes start finish =
 
 let goldbach n =
   if n mod 2 <> 0 then raise (Invalid_argument "Not an even number!") else
-    let rec aux d =
-      if prime (n - d) && prime d then (d, n - d)
-      else aux (d+1)
+    let primes = all_primes 2 (n/2) in
+    let rec aux = function
+      | [] -> raise (Failure "Golbach was wrong")
+      | p::ps -> if prime (n - p) then (p, n - p)
+        else aux ps
     in
-    aux 2
+    aux primes
 
